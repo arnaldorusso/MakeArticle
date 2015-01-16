@@ -20,7 +20,6 @@ link:http://asciidoctor.org/docs/install-toolchain/[AsciiDoctor Toolchain] and
 the customized CSS included in this repository cloned from
 link:https://github.com/cuducos/PhD[Cuducos]. For example:
 
-  $ cd article
   $ asciidoc-bib text.adoc
   $ asciidoctor -a stylesheet=print.css -a stylesdir=../ text-ref.adoc
 
@@ -33,6 +32,10 @@ To generate thesis without compiling bibliography
 
   $ make raw
 
+To generate an .html file based on other input(must be the same name as
+OtherFile.adoc):
+
+  $ make OtherFile.html
 
 The asciidoc-bib generates a AsciiDoc document including the references along
 text with listed bibliography by simply including at the end of text the
