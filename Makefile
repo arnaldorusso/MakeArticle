@@ -10,9 +10,8 @@ UNOCONV=unoconv
 STSTYLE=elsevier-harvard
 
 BASEDIR=$(CURDIR)
-INPUTDIR=$(BASEDIR)/article
-INPUTFILE=$(INPUTDIR)/text.adoc
-OUTPUTDIR=$(INPUTDIR)/output
+INPUTFILE=$(BASEDIR)/text.adoc
+OUTPUTDIR=$(BASEDIR)/output
 CONFFILE=$(BASEDIR)/print.css
 
 help:
@@ -32,11 +31,9 @@ help:
 
 bib:
 ifdef STYLE
-	cd $(INPUTDIR) && \
 	$(ASCIIDOCBIB) -s $(STYLE) -n $(INPUTFILE) && \
 	mv text-ref.adoc $(OUTPUTDIR)
 else
-	cd $(INPUTDIR) && \
 	$(ASCIIDOCBIB) -s $(STSTYLE) -n $(INPUTFILE) && \
 	mv text-ref.adoc $(OUTPUTDIR)
 endif
@@ -44,27 +41,35 @@ endif
 clean:
 	[ ! -d $(OUTPUTDIR) ] || rm -f $(OUTPUTDIR)/*.*
 
-%.html: %.adoc
-	cd $(OUTPUTDIR) && \
-	cp $< $(CURDIR) && \
-	$(ASCIIDOCTOR) -a stylesheet=$(CONFFILE) $<
+#html: text.html
+#%.html: %.adoc
+#	cp $< $(OUTPUTDIR)
+#	cd $(OUTPUTDIR) && \
+#	$(ASCIIDOCTOR) -a stylesheet=$(CONFFILE) $<
 
-article:
-ifdef FILENAME
-	$(ASCIIDOCTOR) -a stylesheet=$(CONFFILE) $(FILENAME)
-else
-	cd $(OUTPUTDIR) && \
-	$(ASCIIDOCTOR) -a stylesheet=$(CONFFILE) text-ref.adoc
-endif
+article: text.html
+%.html: %.adoc
+	$(ASCIIDOCTOR) -a stylesheet=$(CONFFILE) $<
+	mv $@ $(OUTPUTDIR)
 
 raw:
 	$(ASCIIDOCTOR) -a stylesheet=$(CONFFILE) $(INPUTDIR)/text.adoc
 	mv $(INPUTDIR)/text.html $(OUTPUTDIR)
 
+xml: text.xml
+%.xml: %.adoc
+	$(ASCIIDOCTOR) -b dockbook5 $< && \
+	mv $@ $(OUTPUTDIR)
+
 pdf:
 	cd $(OUTPUTDIR) && \
 	$(ASCIIDOCTOR) -b docbook5 text-ref.adoc && \
 	$(DBLATEX) -T db2latex text-ref.xml
+
+#pdf: xml text-ref.xml
+#%.pdf: %.xml
+#	cd $(OUTPUTDIR) && \
+#	$(DBLATEX) -T db2latex $<
 
 tex:
 	cd $(OUTPUTDIR) && \
@@ -72,8 +77,9 @@ tex:
    	$(DBLATEX) -T db2latex -t tex text-ref.xml
 
 doc:
+%.html: %.docx
 	cd $(OUTPUTDIR) &&\
-	$(PANDOC) -o text-ref.docx text-ref.html
+	$(PANDOC) -o output.docx $<
 
 doc2adoc:
 	cd $(OUTPUTDIR) &&\
@@ -81,4 +87,4 @@ doc2adoc:
 	$(UNOCONV) -f html text-ref.docx &&\
 	$(PANDOC) -f html -t asciidoc text-ref.html -o converted.adoc
 
-.PHONY: bib clean html article raw pdf tex doc doc2adoc
+.PHONY: bib clean html article raw xml pdf tex doc doc2adoc
