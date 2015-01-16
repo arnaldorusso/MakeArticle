@@ -62,11 +62,6 @@ If you prefer a Word version, use link:http://johnmacfarlane.net/pandoc/[Pandoc]
 
  $ make doc
 
-== Scholarship
-
-This research is possible due to the scholarship offered by link:http://capes.gov.br/[CAPES], a government agency linked to the Brazilian Ministry of Education.
-
-image::http://www.capes.gov.br/images/logo-capes.png[CAPES, link="http://www.capes.gov.br/"]
 == License
 
 These writings by ciclotux.org[Arnaldo Russo] are licensed under a http://creativecommons.org/licenses/by/4.0/[Creative Commons Attribution 4.0 International License].
