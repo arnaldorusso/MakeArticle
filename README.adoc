@@ -2,7 +2,7 @@
 Arnaldo Russo
 :homepage: ciclotux.org
 
-== Print friendly versions Fernando sobral version: for u
+== Print friendly versions =]
 
 
 [source]
