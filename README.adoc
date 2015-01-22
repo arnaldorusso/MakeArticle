@@ -2,7 +2,8 @@
 Arnaldo Russo
 :homepage: ciclotux.org
 
-== Print friendly versions
+== Print friendly versions =]
+
 
 [source]
 All generated files are stored on article/output directory.
